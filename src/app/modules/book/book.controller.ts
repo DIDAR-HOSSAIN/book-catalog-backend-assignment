@@ -20,17 +20,17 @@ const createBook = catchAsync(async (req:Request, res:Response) => {
 })
 
 const getBooks = catchAsync(async (req:Request, res:Response) => {
-    const filters = pick(req.query, bookFilterableFields) 
-    const options = pick(req.query, ['page', 'limit', 'sortBy', 'sortOrder']) 
+    const filters = pick(req.query, bookFilterableFields);
+    const options = pick(req.query, ['page', 'limit', 'sortBy', 'sortOrder']); 
     const result = await CategoryService.getBooks(filters, options)
 
     sendResponse(res,{
         statusCode:httpStatus.OK,
         success:true,
         message: "Books retrieved Successfully",
-        data: result
-        // meta: result.meta,
-        // data: result.data
+        // data: result
+        meta: result.meta,
+        data: result.data
     })
     
 })
@@ -83,7 +83,7 @@ const deleteBook = catchAsync(async (req:Request, res:Response) => {
 
 
 
-export const CategoryController = {
+export const BookController = {
     createBook,
     getBooks,
     getBook,

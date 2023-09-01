@@ -34,34 +34,35 @@ const getBooks = async(filters:IBookFilterRequest, options:IPaginationOptions):P
         })
     }
 
-    // if(Object.keys (filterData).length >0 ){
-    //     andConditions.push({
-    //         AND: Object.keys(filterData).map((key)=>{
-    //             if(bookRelationalFields.includes(key)){
-    //                 return {
-    //                     [bookRelationalFieldsMapper[key]]:{
-    //                         id: (filterData as any)[key]
-    //                     }
-    //                 }
-    //             }else{
-    //                 return {
-    //                     [key]:{
-    //                         equals:(filterData as any)[key]
-    //                     }
-    //                 }
-    //             }
-    //         })
-    //     })
-    // }
+    if(Object.keys (filterData).length >0 ){
+        andConditions.push({
+            AND: Object.keys(filterData).map((key)=>{
+                if(bookRelationalFields.includes(key)){
+                    return {
+                        [bookRelationalFieldsMapper[key]]:{
+                            id: (filterData as any)[key]
+                        }
+                    }
+                }else{
+                    return {
+                        [key]:{
+                            equals:(filterData as any)[key]
+                        }
+                    }
+                }
+            })
+        })
+    }
 
 
-    const whereConditions: Prisma.BookWhereInput = andConditions.length > 0 ? {AND: andConditions} : {}
+    const whereConditions: Prisma.BookWhereInput = andConditions.length > 0 ? {AND: andConditions} : {};
 
     const result = await prisma.book.findMany({
         where:whereConditions,
         skip,
+        take:limit,
         orderBy: 
-        options.sortBy && options. sortOrder ? 
+        options.sortBy && options.sortOrder ? 
         {
             [options.sortBy]: options.sortOrder 
         } 
