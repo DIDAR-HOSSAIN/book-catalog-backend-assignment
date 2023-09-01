@@ -2,13 +2,13 @@ import { Request, Response } from "express"
 import httpStatus from "http-status"
 import catchAsync from "../../../shared/catchAsync"
 import sendResponse from "../../../shared/sendResponse"
-import { CategoryService } from "./book.service"
 import pick from "../../../shared/pick"
 import { bookFilterableFields } from "./book.constraint"
+import { BookService } from "./book.service"
 
 const createBook = catchAsync(async (req:Request, res:Response) => {
 
-    const result = await CategoryService.createBook(req.body)
+    const result = await BookService.createBook(req.body)
 
     sendResponse(res,{
         statusCode:httpStatus.OK,
@@ -22,7 +22,7 @@ const createBook = catchAsync(async (req:Request, res:Response) => {
 const getBooks = catchAsync(async (req:Request, res:Response) => {
     const filters = pick(req.query, bookFilterableFields);
     const options = pick(req.query, ['page', 'limit', 'sortBy', 'sortOrder']); 
-    const result = await CategoryService.getBooks(filters, options)
+    const result = await BookService.getBooks(filters, options)
 
     sendResponse(res,{
         statusCode:httpStatus.OK,
@@ -35,9 +35,25 @@ const getBooks = catchAsync(async (req:Request, res:Response) => {
     
 })
 
+
+const getBooksByCategoryId = catchAsync(async (req: Request, res: Response)=> {
+      const { categoryId } = req.params;
+      const result = await BookService.getBooksByCategoryId(categoryId);
+  
+      sendResponse(res,{
+        statusCode:httpStatus.OK,
+        success:true,
+        message: "Books retrieved by category id",
+        data: result
+        // meta: result.meta,
+        // data: result.data
+    })
+    })
+  
+
 const getBook = catchAsync(async (req:Request, res:Response) => {
 
-    const result = await CategoryService.getBook(req.params.id)
+    const result = await BookService.getBook(req.params.id)
 
     sendResponse(res,{
         statusCode:httpStatus.OK,
@@ -51,7 +67,7 @@ const getBook = catchAsync(async (req:Request, res:Response) => {
 const updateBook = catchAsync(async (req:Request, res:Response) => {
     const id = req.params.id;
     const payload = req.body;
-    const result = await CategoryService.updateBook(id, payload)
+    const result = await BookService.updateBook(id, payload)
 
     sendResponse(res,{
         statusCode:httpStatus.OK,
@@ -64,7 +80,7 @@ const updateBook = catchAsync(async (req:Request, res:Response) => {
 
 const deleteBook = catchAsync(async (req:Request, res:Response) => {
     const id = req.params.id;
-    const result = await CategoryService.deleteBook(id)
+    const result = await BookService.deleteBook(id)
 
     sendResponse(res,{
         statusCode:httpStatus.OK,
@@ -86,6 +102,7 @@ const deleteBook = catchAsync(async (req:Request, res:Response) => {
 export const BookController = {
     createBook,
     getBooks,
+    getBooksByCategoryId,
     getBook,
     updateBook,
     deleteBook

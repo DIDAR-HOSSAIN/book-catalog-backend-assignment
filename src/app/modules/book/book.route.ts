@@ -14,6 +14,7 @@ BookController.createBook)
 
 router.get('/', BookController.getBooks)
 
+router.get('/:categoryId/category', BookController.getBooksByCategoryId)
 router.get('/:id', BookController.getBook)
 
 router.patch('/:id', validateRequest(BookZodValidation.updateBookZodSchema), 

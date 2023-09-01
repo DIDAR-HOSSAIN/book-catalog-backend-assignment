@@ -82,6 +82,19 @@ const getBooks = async(filters:IBookFilterRequest, options:IPaginationOptions):P
     };
 }
 
+
+const getBooksByCategoryId = async(categoryId:string)=> {
+    const result = await prisma.book.findMany({
+    where: {
+        categoryId
+      }
+
+    })
+  
+    return result;
+  }
+
+
 const getBook = async(id:string)=>{
     const result = await prisma.book.findUnique({
         where:{
@@ -118,9 +131,10 @@ const deleteBook = async(id:string):Promise<Book>=>{
 
 
 
-export const CategoryService = {
+export const BookService = {
     createBook,
     getBooks,
+    getBooksByCategoryId,
     getBook,
     updateBook,
     deleteBook
