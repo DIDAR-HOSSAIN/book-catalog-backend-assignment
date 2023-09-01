@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const createUser = z.object({
+const createUserZodSchema = z.object({
     body: z.object({
         name: z.string({
             required_error: 'Name is required'
@@ -26,7 +26,7 @@ const createUser = z.object({
     })
 });
 
-const updateUser = z.object({
+const updateUserZodSchema = z.object({
     body: z.object({
         name: z.string().optional(),
         email: z.string().optional(),
@@ -38,7 +38,7 @@ const updateUser = z.object({
     })
 });
 
-export const UserValidation = {
-    createUser,
-    updateUser
+export const UserZodValidation = {
+    createUserZodSchema,
+    updateUserZodSchema
 };
