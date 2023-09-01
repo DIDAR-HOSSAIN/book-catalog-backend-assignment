@@ -2,26 +2,26 @@ import express from "express";
 import auth from "../../middlewares/auth";
 import { ENUM_USER_ROLE } from "../../../enums/user";
 import validateRequest from "../../middlewares/validateRequest";
-import { CategoryZodValidation } from "./book.validation";
 import { CategoryController } from "./book.controller";
+import { BookZodValidation } from "./book.validation";
 
 const router = express.Router();
 
-router.post('/create-category',
-validateRequest(CategoryZodValidation.createCategoryZodSchema), 
+router.post('/create-book',
+validateRequest(BookZodValidation.createBookZodSchema), 
 auth(ENUM_USER_ROLE.ADMIN),
-CategoryController.createCategory)
+CategoryController.createBook)
 
-router.get('/', CategoryController.getCategories)
+router.get('/', CategoryController.getBooks)
 
-router.get('/:id', CategoryController.getCategory)
+router.get('/:id', CategoryController.getBook)
 
-router.patch('/:id', validateRequest(CategoryZodValidation.updateCategoryZodSchema), 
-auth(ENUM_USER_ROLE.ADMIN),  CategoryController.updateCategory)
+router.patch('/:id', validateRequest(BookZodValidation.updateBookZodSchema), 
+auth(ENUM_USER_ROLE.ADMIN),  CategoryController.updateBook)
 
-router.delete('/:id', auth(ENUM_USER_ROLE.ADMIN),  CategoryController.deleteCategory)
-
-
+router.delete('/:id', auth(ENUM_USER_ROLE.ADMIN),  CategoryController.deleteBook)
 
 
-export const CategoryRoutes = router;
+
+
+export const BookRoutes = router;

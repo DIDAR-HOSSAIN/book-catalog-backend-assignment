@@ -3,68 +3,73 @@ import httpStatus from "http-status"
 import catchAsync from "../../../shared/catchAsync"
 import sendResponse from "../../../shared/sendResponse"
 import { CategoryService } from "./book.service"
+import pick from "../../../shared/pick"
+import { bookFilterableFields } from "./book.constraint"
 
-const createCategory = catchAsync(async (req:Request, res:Response) => {
+const createBook = catchAsync(async (req:Request, res:Response) => {
 
-    const result = await CategoryService.createCategory(req.body)
+    const result = await CategoryService.createBook(req.body)
 
     sendResponse(res,{
         statusCode:httpStatus.OK,
         success:true,
-        message: "Category Created Successfully",
+        message: "Book Created Successfully",
         data: result
     })
     
 })
 
-const getCategories = catchAsync(async (req:Request, res:Response) => {
-
-    const result = await CategoryService.getUCategories()
+const getBooks = catchAsync(async (req:Request, res:Response) => {
+    const filters = pick(req.query, bookFilterableFields) 
+    const options = pick(req.query, ['page', 'limit', 'sortBy', 'sortOrder']) 
+    const result = await CategoryService.getBooks(filters, options)
 
     sendResponse(res,{
         statusCode:httpStatus.OK,
         success:true,
-        message: "Categories retrieved Successfully",
+        message: "Books retrieved Successfully",
+        data: result
+        // meta: result.meta,
+        // data: result.data
+    })
+    
+})
+
+const getBook = catchAsync(async (req:Request, res:Response) => {
+
+    const result = await CategoryService.getBook(req.params.id)
+
+    sendResponse(res,{
+        statusCode:httpStatus.OK,
+        success:true,
+        message: "Book retrieved Successfully",
         data: result
     })
     
 })
 
-const getCategory = catchAsync(async (req:Request, res:Response) => {
-
-    const result = await CategoryService.getCategory(req.params.id)
-
-    sendResponse(res,{
-        statusCode:httpStatus.OK,
-        success:true,
-        message: "Category retrieved Successfully",
-        data: result
-    })
-    
-})
-
-const updateCategory = catchAsync(async (req:Request, res:Response) => {
+const updateBook = catchAsync(async (req:Request, res:Response) => {
     const id = req.params.id;
     const payload = req.body;
-    const result = await CategoryService.updateCategory(id, payload)
+    const result = await CategoryService.updateBook(id, payload)
 
     sendResponse(res,{
         statusCode:httpStatus.OK,
         success:true,
-        message: "Category updated Successfully",
+        message: "Book updated Successfully",
         data: result
     })
     
 })
 
-const deleteCategory = catchAsync(async (req:Request, res:Response) => {
+const deleteBook = catchAsync(async (req:Request, res:Response) => {
     const id = req.params.id;
-    const result = await CategoryService.deleteCategory(id)
+    const result = await CategoryService.deleteBook(id)
 
     sendResponse(res,{
         statusCode:httpStatus.OK,
         success:true,
-        message: "Category deleted Successfully",
+        message: "Book deleted Successfully",
         data: result
     })
     
@@ -79,9 +84,9 @@ const deleteCategory = catchAsync(async (req:Request, res:Response) => {
 
 
 export const CategoryController = {
-    createCategory,
-    getCategories,
-    getCategory,
-    updateCategory,
-    deleteCategory
+    createBook,
+    getBooks,
+    getBook,
+    updateBook,
+    deleteBook
 }
