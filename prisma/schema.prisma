@@ -26,7 +26,20 @@ model User {
 
 model Category {
   id           String @id @default(uuid())
-  title        String
+  title        String     @unique
+  books Book[]
 
   @@map("categories")
+  }
+
+
+  model Book {
+  id           String @id @default(uuid())
+  title        String
+  author       String
+  genre        String
+  price        Int
+  publicationDate DateTime
+  category Category @relation(fields: [categoryId], references: [id])
+  categoryId  String
   }

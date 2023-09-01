@@ -2,8 +2,8 @@ import express from "express";
 import auth from "../../middlewares/auth";
 import { ENUM_USER_ROLE } from "../../../enums/user";
 import validateRequest from "../../middlewares/validateRequest";
-import { CategoryZodValidation } from "./category.validation";
-import { CategoryController } from "./category.controller";
+import { CategoryZodValidation } from "./book.validation";
+import { CategoryController } from "./book.controller";
 
 const router = express.Router();
 

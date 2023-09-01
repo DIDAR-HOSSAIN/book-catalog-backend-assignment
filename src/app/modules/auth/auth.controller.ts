@@ -2,9 +2,9 @@
 import { Response, Request } from 'express';
 import catchAsync from '../../../shared/catchAsync';
 import httpStatus from 'http-status';
-import { AuthService } from './auth.service';
 import sendResponse from '../../../shared/sendResponse';
 import { User } from '@prisma/client';
+import { AuthService } from './auth.service';
 
 const loginUser = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body;

@@ -1,35 +1,11 @@
-// // service/auth.service.ts
-// import httpStatus from 'http-status';
-// import ApiError from '../../../errors/ApiError';
-// import prisma from '../../../shared/prisma';
-
-// const loginUser = async (payload: any): Promise<any> => {
-//   const { email, password } = payload;
-
-//   const user = await prisma.user.findUnique({
-//     where: {
-//       email,
-//       password
-//     },
-//   });
-
-//   if (!user) {
-//     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
-//   }
-
-// };
-
-// export const AuthService = {
-//   loginUser,
-// };
-
-
 // service/auth.service.ts
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
 import prisma from '../../../shared/prisma';
+import { jwtHelpers } from '../../../helpers/jwtHelpers';
+import config from '../../../config';
 import { Secret } from 'jsonwebtoken';
-import jwt from 'jsonwebtoken'; // Import the jwt library
+
 
 const loginUser = async (payload: any): Promise<any> => {
   const { email, password } = payload;
@@ -48,27 +24,19 @@ const loginUser = async (payload: any): Promise<any> => {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Password is incorrect');
   }
 
-  // Generate a JWT token
-  const token = jwt.sign(
-    {
-      userId: user.id, // Include any user-specific data you need here
-      role: user.role, // Include user role or other information
-    },
-    'very-secret', // Replace with your secret key
-    {
-      expiresIn: '365d', // Adjust token expiration as needed
-    }
+  const { id, role } = user;
+
+  const accessToken = jwtHelpers.createToken(
+    { id, role },
+    config.jwt.secret as Secret
   );
 
-  // Return the token along with success message
   return {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: 'User signed in successfully!',
-    token,
+    accessToken
   };
-};
+
+}
 
 export const AuthService = {
-  loginUser,
-};
+  loginUser
+}
