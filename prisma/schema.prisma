@@ -42,4 +42,6 @@ model Category {
   publicationDate String
   category Category @relation(fields: [categoryId], references: [id])
   categoryId  String
+
+  @@map("books")
   }
