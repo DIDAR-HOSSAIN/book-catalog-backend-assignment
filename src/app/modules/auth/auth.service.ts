@@ -5,6 +5,15 @@ import prisma from '../../../shared/prisma';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
 import config from '../../../config';
 import { Secret } from 'jsonwebtoken';
+import { User } from '@prisma/client';
+
+const createUser = async(data:User):Promise<User>=>{
+  const result = await prisma.user.create({
+      data
+  })
+
+  return result;
+}
 
 
 const loginUser = async (payload: any): Promise<any> => {
@@ -38,5 +47,6 @@ const loginUser = async (payload: any): Promise<any> => {
 }
 
 export const AuthService = {
+  createUser,
   loginUser
 }
