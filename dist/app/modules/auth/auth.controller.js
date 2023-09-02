@@ -28,6 +28,15 @@ const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const http_status_1 = __importDefault(require("http-status"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const auth_service_1 = require("./auth.service");
+const createUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield auth_service_1.AuthService.createUser(req.body);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "User Created Successfully",
+        data: result
+    });
+}));
 const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const loginData = __rest(req.body, []);
     const result = yield auth_service_1.AuthService.loginUser(loginData);
@@ -39,5 +48,6 @@ const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void
     });
 }));
 exports.AuthController = {
+    createUser,
     loginUser
 };

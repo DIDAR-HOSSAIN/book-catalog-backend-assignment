@@ -2,7 +2,21 @@ import { Request, Response } from "express"
 import httpStatus from "http-status"
 import catchAsync from "../../../shared/catchAsync"
 import sendResponse from "../../../shared/sendResponse"
+import { OrderService } from "./order.service"
 
+
+const createOrder = catchAsync(async (req:Request, res:Response) => {
+
+    const result = await OrderService.createOrder(req.body)
+  
+    sendResponse(res,{
+        statusCode:httpStatus.OK,
+        success:true,
+        message: "Order Created Successfully",
+        data: result
+    })
+    
+  })
 
 const getOrders = catchAsync(async (req:Request, res:Response) => {
 
@@ -62,6 +76,7 @@ const deleteOrder = catchAsync(async (req:Request, res:Response) => {
 
 
 export const OrderController = {
+    createOrder,
     getOrders,
     getOrder,
     updateOrder,

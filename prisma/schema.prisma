@@ -51,6 +51,7 @@ model Category {
   model Order {
   id           String @id @default(uuid())
   quantity        Int
+  bookId          String
   books Book[]
 
   @@map("orders")

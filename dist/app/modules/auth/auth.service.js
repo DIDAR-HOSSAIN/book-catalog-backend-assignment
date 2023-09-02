@@ -19,6 +19,12 @@ const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const jwtHelpers_1 = require("../../../helpers/jwtHelpers");
 const config_1 = __importDefault(require("../../../config"));
+const createUser = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.user.create({
+        data
+    });
+    return result;
+});
 const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = payload;
     const user = yield prisma_1.default.user.findUnique({
@@ -39,5 +45,6 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     };
 });
 exports.AuthService = {
+    createUser,
     loginUser
 };

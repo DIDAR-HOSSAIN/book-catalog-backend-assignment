@@ -12,53 +12,53 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserController = void 0;
-const user_service_1 = require("./user.service");
+exports.OrderController = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
-const getUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_service_1.UserService.getUsers();
+const order_service_1 = require("./order.service");
+const getOrders = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield order_service_1.OrderService.getOrders();
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "Users retrieved Successfully",
+        message: "Orders retrieved Successfully",
         data: result
     });
 }));
-const getUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_service_1.UserService.getUser(req.params.id);
+const getOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield order_service_1.OrderService.getOrder(req.params.id);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "User retrieved Successfully",
+        message: "Order retrieved Successfully",
         data: result
     });
 }));
-const updateUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const payload = req.body;
-    const result = yield user_service_1.UserService.updateUser(id, payload);
+    const result = yield order_service_1.OrderService.updateOrder(id, payload);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "User updated Successfully",
+        message: "Order updated Successfully",
         data: result
     });
 }));
-const deleteUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const result = yield user_service_1.UserService.deleteUser(id);
+    const result = yield order_service_1.OrderService.deleteOrder(id);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "User deleted Successfully",
+        message: "Order deleted Successfully",
         data: result
     });
 }));
-exports.UserController = {
-    getUsers,
-    getUser,
-    updateUser,
-    deleteUser
+exports.OrderController = {
+    getOrders,
+    getOrder,
+    updateOrder,
+    deleteOrder
 };

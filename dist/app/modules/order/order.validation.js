@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserZodValidation = void 0;
+exports.OrderZodValidation = void 0;
 const zod_1 = require("zod");
-const updateUserZodSchema = zod_1.z.object({
+const updateOrderZodSchema = zod_1.z.object({
     body: zod_1.z.object({
         name: zod_1.z.string().optional(),
         email: zod_1.z.string().optional(),
@@ -13,6 +13,6 @@ const updateUserZodSchema = zod_1.z.object({
         profileImg: zod_1.z.string().optional()
     })
 });
-exports.UserZodValidation = {
-    updateUserZodSchema
+exports.OrderZodValidation = {
+    updateOrderZodSchema
 };

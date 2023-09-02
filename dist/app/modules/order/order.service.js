@@ -12,22 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserService = void 0;
+exports.OrderService = void 0;
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
-const getUsers = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield prisma_1.default.user.findMany();
+const getOrders = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.order.findMany();
     return result;
 });
-const getUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield prisma_1.default.user.findUnique({
+const getOrder = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.order.findUnique({
         where: {
             id
         }
     });
     return result;
 });
-const updateUser = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield prisma_1.default.user.update({
+const updateOrder = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.order.update({
         where: {
             id
         },
@@ -35,17 +35,17 @@ const updateUser = (id, payload) => __awaiter(void 0, void 0, void 0, function* 
     });
     return result;
 });
-const deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield prisma_1.default.user.delete({
+const deleteOrder = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.order.delete({
         where: {
             id
         }
     });
     return result;
 });
-exports.UserService = {
-    getUsers,
-    getUser,
-    updateUser,
-    deleteUser
+exports.OrderService = {
+    getOrders,
+    getOrder,
+    updateOrder,
+    deleteOrder
 };
