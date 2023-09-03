@@ -14,6 +14,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderService = void 0;
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
+const utils_1 = require("../../../shared/utils");
+const createOrder = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    const { quantity, bookIds } = data;
+    const result = [];
+    yield (0, utils_1.asyncForEach)(bookIds, (bookId) => __awaiter(void 0, void 0, void 0, function* () {
+        const insertIntoOrder = yield prisma_1.default.order.create({
+            data: {
+                bookId,
+                quantity
+            }
+        });
+        result.push(insertIntoOrder);
+    }));
+    return result;
+});
 const getOrders = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prisma_1.default.order.findMany();
     return result;
@@ -44,6 +59,7 @@ const deleteOrder = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 exports.OrderService = {
+    createOrder,
     getOrders,
     getOrder,
     updateOrder,
