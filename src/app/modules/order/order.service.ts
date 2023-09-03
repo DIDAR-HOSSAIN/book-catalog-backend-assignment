@@ -1,48 +1,37 @@
 import { Order } from "@prisma/client";
 import prisma from "../../../shared/prisma";
 import { asyncForEach } from "../../../shared/utils";
-import { IOrder } from "./order.interface";
 
 
-// const createOrder = async (data: IOrder): Promise<Order[]> => {
-//   const result: any[] = [];
-
-//   for (const book of Order) {
-//     const { bookId, quantity } = book;
-
-//     const insertIntoOrder = await prisma.order.create({
-//       data: {
-//         bookId,
-//         quantity,
-//       },
-//     });
-
-//     result.push(insertIntoOrder);
-//   }
-
-//   return result;
-// };
-
-
-
-
-const createOrder = async(data:IOrder):Promise<Order[]>=>{
-    const { userId, quantity, bookIds } = data;
-    const result:any[] = [];
-    await asyncForEach(bookIds, async(bookId:string)=>{
-         const insertIntoOrder = await prisma.order.create({
-           data:{
+const createOrder = async (data:any) => {
+    try {
+      const { userId, orderedBooks } = data;
+      const result:any = [];
+  
+      // Ensure that bookIds is an array
+      if (!Array.isArray(orderedBooks)) {
+        throw new Error("Invalid orderedBooks data. Expected an array.");
+      }
+  
+      await asyncForEach(orderedBooks, async (bookData:any) => {
+        const { bookId, quantity } = bookData;
+        const insertIntoOrder = await prisma.order.create({
+          data: {
             userId,
             bookId,
-            quantity
-           }
-         })
+            quantity,
+          },
+        });
+  
+        result.push(insertIntoOrder);
+      });
+  
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  };
 
-         result.push(insertIntoOrder);
-    })
-    return result
-   
-  }
 
 
 const getOrders = async()=>{

@@ -5,36 +5,56 @@ import sendResponse from "../../../shared/sendResponse"
 import { OrderService } from "./order.service"
 
 
-// const createOrder = catchAsync(async (req:Request, res:Response) => {
- 
-//     const orderedBooks = req.body.orderedBooks; 
 
-//     const order = await OrderService.createOrder(orderedBooks);
+// const createOrder = catchAsync(async (req, res) => {
 
-//     res.status(200).json({
-//       success: true,
-//       statusCode: 200,
-//       message: "Order created successfully",
-//       data: order,
-//     });
+//       const requestBody = req.body;
+//       const result = await OrderService.createOrder(requestBody);
 
-// });
+//         sendResponse(res,{
+//         statusCode:httpStatus.OK,
+//         success:true,
+//         message: "Order Created Successfully",
+//         data: result
 
-
-
-
-
-const createOrder = catchAsync(async (req:Request, res:Response) => {
-    const result = await OrderService.createOrder(req.body)
+//   })
+// })
   
-    sendResponse(res,{
-        statusCode:httpStatus.OK,
-        success:true,
-        message: "Order Created Successfully",
-        data: result
-    })
+  
+
+
+// const createOrder = catchAsync(async (req:Request, res:Response) => {
+//     const result = await OrderService.createOrder(req.body)
+  
+//     sendResponse(res,{
+//         statusCode:httpStatus.OK,
+//         success:true,
+//         message: "Order Created Successfully",
+//         data: result
+//     })
     
-  })
+//   })
+
+const createOrder = catchAsync(async (req, res) => {
+    try {
+      const requestBody = req.body;
+      const order = await OrderService.createOrder(requestBody);
+  
+      res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "Order created successfully",
+        data: order,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        statusCode: 500,
+        message: "An error occurred while creating the order",
+      });
+    }
+  });
+  
 
 const getOrders = catchAsync(async (req:Request, res:Response) => {
 
