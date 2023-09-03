@@ -5,36 +5,36 @@ import sendResponse from "../../../shared/sendResponse"
 import { OrderService } from "./order.service"
 
 
-const createOrder = catchAsync(async (req:Request, res:Response) => {
- 
-    const orderedBooks = req.body.orderedBooks; 
-
-    const order = await OrderService.createOrder(orderedBooks);
-
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Order created successfully",
-      data: order,
-    });
-
-});
-
-
-
-
-
 // const createOrder = catchAsync(async (req:Request, res:Response) => {
-//     const result = await OrderService.createOrder(req.body)
+ 
+//     const orderedBooks = req.body.orderedBooks; 
+
+//     const order = await OrderService.createOrder(orderedBooks);
+
+//     res.status(200).json({
+//       success: true,
+//       statusCode: 200,
+//       message: "Order created successfully",
+//       data: order,
+//     });
+
+// });
+
+
+
+
+
+const createOrder = catchAsync(async (req:Request, res:Response) => {
+    const result = await OrderService.createOrder(req.body)
   
-//     sendResponse(res,{
-//         statusCode:httpStatus.OK,
-//         success:true,
-//         message: "Order Created Successfully",
-//         data: result
-//     })
+    sendResponse(res,{
+        statusCode:httpStatus.OK,
+        success:true,
+        message: "Order Created Successfully",
+        data: result
+    })
     
-//   })
+  })
 
 const getOrders = catchAsync(async (req:Request, res:Response) => {
 
