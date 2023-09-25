@@ -19,6 +19,9 @@ const getCategory = async(id:string)=>{
     const result = await prisma.category.findUnique({
         where:{
             id
+        },
+        include:{
+            books:true
         }
     })
 

@@ -35,14 +35,13 @@ const loginUser = async (payload: any): Promise<any> => {
 
   const { id, role } = user;
 
-  const accessToken = jwtHelpers.createToken(
+  const token = jwtHelpers.createToken(
     { id, role },
     config.jwt.secret as Secret
-  );
+    );
+    return token
 
-  return {
-    accessToken
-  };
+
 
 }
 

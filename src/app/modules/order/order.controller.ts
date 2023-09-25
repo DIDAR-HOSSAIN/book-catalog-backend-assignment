@@ -7,9 +7,9 @@ import { OrderService } from "./order.service"
 
 
 // const createOrder = catchAsync(async (req, res) => {
-
+//       const user = (req as any).user;
 //       const requestBody = req.body;
-//       const result = await OrderService.createOrder(requestBody);
+//       const result = await OrderService.createOrder(user, requestBody);
 
 //         sendResponse(res,{
 //         statusCode:httpStatus.OK,
@@ -18,8 +18,7 @@ import { OrderService } from "./order.service"
 //         data: result
 
 //   })
-// })
-  
+// }) 
   
 
 
@@ -36,24 +35,19 @@ import { OrderService } from "./order.service"
 //   })
 
 const createOrder = catchAsync(async (req, res) => {
-    try {
-      const requestBody = req.body;
-      const order = await OrderService.createOrder(requestBody);
-  
-      res.status(200).json({
-        success: true,
-        statusCode: 200,
-        message: "Order created successfully",
-        data: order,
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        statusCode: 500,
-        message: "An error occurred while creating the order",
-      });
-    }
-  });
+
+    const user = (req as any).user.email;
+    const requestBody = req.body;
+    const result = await OrderService.createOrder(user, requestBody);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Order Created Successfully",
+      data: result,
+    });
+});
+
   
 
 const getOrders = catchAsync(async (req:Request, res:Response) => {

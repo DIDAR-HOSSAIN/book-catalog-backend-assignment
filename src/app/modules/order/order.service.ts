@@ -3,34 +3,34 @@ import prisma from "../../../shared/prisma";
 import { asyncForEach } from "../../../shared/utils";
 
 
-const createOrder = async (data:any) => {
-    try {
-      const { userId, orderedBooks } = data;
-      const result:any = [];
-  
-      // Ensure that bookIds is an array
-      if (!Array.isArray(orderedBooks)) {
-        throw new Error("Invalid orderedBooks data. Expected an array.");
-      }
-  
-      await asyncForEach(orderedBooks, async (bookData:any) => {
-        const { bookId, quantity } = bookData;
-        const insertIntoOrder = await prisma.order.create({
-          data: {
-            userId,
-            bookId,
-            quantity,
-          },
-        });
-  
-        result.push(insertIntoOrder);
-      });
-  
-      return result;
-    } catch (error) {
-      throw error;
+const createOrder = async (authUserId: string, data: any) => {
+  try {
+    const { orderedBooks } = data;
+
+    // Ensure that orderedBooks is an array
+    if (!Array.isArray(orderedBooks)) {
+      throw new Error("Invalid orderedBooks data. Expected an array.");
     }
-  };
+
+    // Create an order object with the desired structure
+    const order = {
+      userId: authUserId,
+      orderedBooks: orderedBooks.map((bookData: any) => ({
+        bookId: bookData.bookId,
+        quantity: bookData.quantity,
+      })),
+      status: "pending",
+      createdAt: "2023-08-28T10:00:00Z", // Set the creation date
+    };
+
+    return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
 
 
 

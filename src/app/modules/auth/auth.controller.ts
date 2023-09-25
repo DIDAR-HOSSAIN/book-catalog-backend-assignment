@@ -1,3 +1,4 @@
+import { string } from 'zod';
 // controllers/authController.ts
 import { Response, Request } from 'express';
 import catchAsync from '../../../shared/catchAsync';
@@ -30,7 +31,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User logged in successfully',
-    data: result,
+    token: result,
   });
 });
 
