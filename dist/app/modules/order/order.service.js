@@ -14,35 +14,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderService = void 0;
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
-const utils_1 = require("../../../shared/utils");
-// const createOrder = async (data: IOrder): Promise<Order[]> => {
-//   const result: any[] = [];
-//   for (const book of Order) {
-//     const { bookId, quantity } = book;
-//     const insertIntoOrder = await prisma.order.create({
-//       data: {
-//         bookId,
-//         quantity,
-//       },
-//     });
-//     result.push(insertIntoOrder);
-//   }
-//   return result;
-// };
-const createOrder = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userId, quantity, bookIds } = data;
-    const result = [];
-    yield (0, utils_1.asyncForEach)(bookIds, (bookId) => __awaiter(void 0, void 0, void 0, function* () {
-        const insertIntoOrder = yield prisma_1.default.order.create({
-            data: {
-                userId,
-                bookId,
-                quantity
-            }
-        });
-        result.push(insertIntoOrder);
-    }));
-    return result;
+const createOrder = (authUserId, data) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { orderedBooks } = data;
+        // Ensure that orderedBooks is an array
+        if (!Array.isArray(orderedBooks)) {
+            throw new Error("Invalid orderedBooks data. Expected an array.");
+        }
+        // Create an order object with the desired structure
+        const order = {
+            userId: authUserId,
+            orderedBooks: orderedBooks.map((bookData) => ({
+                bookId: bookData.bookId,
+                quantity: bookData.quantity,
+            })),
+            status: "pending",
+            createdAt: "2023-08-28T10:00:00Z", // Set the creation date
+        };
+        return order;
+    }
+    catch (error) {
+        throw error;
+    }
 });
 const getOrders = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prisma_1.default.order.findMany();

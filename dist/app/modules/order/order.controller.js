@@ -17,23 +17,35 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const order_service_1 = require("./order.service");
+// const createOrder = catchAsync(async (req, res) => {
+//       const user = (req as any).user;
+//       const requestBody = req.body;
+//       const result = await OrderService.createOrder(user, requestBody);
+//         sendResponse(res,{
+//         statusCode:httpStatus.OK,
+//         success:true,
+//         message: "Order Created Successfully",
+//         data: result
+//   })
+// }) 
 // const createOrder = catchAsync(async (req:Request, res:Response) => {
-//     const orderedBooks = req.body.orderedBooks; 
-//     const order = await OrderService.createOrder(orderedBooks);
-//     res.status(200).json({
-//       success: true,
-//       statusCode: 200,
-//       message: "Order created successfully",
-//       data: order,
-//     });
-// });
+//     const result = await OrderService.createOrder(req.body)
+//     sendResponse(res,{
+//         statusCode:httpStatus.OK,
+//         success:true,
+//         message: "Order Created Successfully",
+//         data: result
+//     })
+//   })
 const createOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield order_service_1.OrderService.createOrder(req.body);
+    const user = req.user.email;
+    const requestBody = req.body;
+    const result = yield order_service_1.OrderService.createOrder(user, requestBody);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
         message: "Order Created Successfully",
-        data: result
+        data: result,
     });
 }));
 const getOrders = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {

@@ -39,10 +39,8 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Password is incorrect');
     }
     const { id, role } = user;
-    const accessToken = jwtHelpers_1.jwtHelpers.createToken({ id, role }, config_1.default.jwt.secret);
-    return {
-        accessToken
-    };
+    const token = jwtHelpers_1.jwtHelpers.createToken({ id, role }, config_1.default.jwt.secret);
+    return token;
 });
 exports.AuthService = {
     createUser,
